@@ -59,3 +59,4 @@ Cargo.lock
 /dist
 /.cache
 .netlify
+/static/koma/*.jpg
