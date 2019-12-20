@@ -5,6 +5,14 @@
     "pass-arguments-to-command": [
       {
         "source": "string",
+        "name": "--files"
+      },
+      {
+        "source": "string",
+        "name": "--pretty"
+      },
+      {
+        "source": "string",
         "name": "src/index.ts"
       }
     ],

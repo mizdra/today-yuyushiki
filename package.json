@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "webhook -hooks hooks.json -port $PORT -verbose",
-    "dev:print": "ts-node src/index.ts",
+    "dev:print": "ts-node --files --pretty src/index.ts",
     "check": "run-p -l -c 'check:tsc --pretty' check:prettier",
     "check:tsc": "tsc --noEmit",
     "check:prettier": "prettier -l 'src/**/*.{ts,tsx}'"
