@@ -45,5 +45,6 @@ async function randomKomaPath(komaDir: string) {
 
   const lp = spawn('lp', ['-d', process.env.PRINTER]);
   lp.stdin.write(result);
+  lp.stdin.end();
   lp.stdout.pipe(process.stdout);
 })();
