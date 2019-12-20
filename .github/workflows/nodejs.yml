@@ -3,7 +3,7 @@ name: Node CI
 on: [push]
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,6 +27,3 @@ jobs:
 
       - name: yarn run check:prettier
         run: yarn run check:prettier
-
-      - name: yarn run build
-        run: yarn run build
