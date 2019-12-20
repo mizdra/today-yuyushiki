@@ -1,0 +1,7 @@
+[
+  {
+    "id": "today-yuyushiki",
+    "execute-command": "ts-node src/index.ts",
+    "command-working-directory": "."
+  }
+]

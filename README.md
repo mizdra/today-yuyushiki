@@ -2,6 +2,13 @@
 
 今日のゆゆ式
 
+## Requirements
+
+- [Node.js](https://nodejs.org)
+- [yarn](https://yarnpkg.com)
+- [adnanh/webhook](https://github.com/adnanh/webhook)
+- `lp` command
+
 ## Usage
 
 ```bash
