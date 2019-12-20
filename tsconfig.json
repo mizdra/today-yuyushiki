@@ -17,10 +17,6 @@
     /* Strict Type-Checking Options */
     "strict": true,
 
-    /* Helper Options */
-    "noEmitHelpers": true,
-    "importHelpers": true,
-
     /* Debug Options */
     "sourceMap": true,
     "pretty": true,
