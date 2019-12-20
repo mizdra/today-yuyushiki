@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import EscPosEncoder from 'esc-pos-encoder';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
