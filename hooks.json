@@ -1,7 +1,13 @@
 [
   {
     "id": "today-yuyushiki",
-    "execute-command": "ts-node src/index.ts",
+    "execute-command": "./node_modules/.bin/ts-node",
+    "pass-arguments-to-command": [
+      {
+        "source": "string",
+        "name": "src/index.ts"
+      }
+    ],
     "command-working-directory": "."
   }
 ]
