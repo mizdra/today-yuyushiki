@@ -7,9 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "run-p start:*",
-    "start:webhook": "webhook -hooks hooks.json -port $PORT -verbose",
-    "start:ngrok": "ngrok http $PORT",
+    "start": "webhook -hooks hooks.json -port $PORT -verbose",
     "dev:print": "ts-node --files --pretty src/index.ts",
     "check": "run-p -l -c 'check:tsc --pretty' check:prettier",
     "check:tsc": "tsc --noEmit",
