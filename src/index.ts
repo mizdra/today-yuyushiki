@@ -2,6 +2,12 @@ import EscPosEncoder from 'esc-pos-encoder';
 import { Canvas } from 'canvas';
 import { lp, randomKoma } from './util';
 
+const 漢字のサイズ変更を有効化 = [0x1c, 0x21, 0b0001100]; // (FS !)
+const 白黒反転を有効化 = [0x1d, 0x42, 1]; // (GS B)
+const 白黒反転を解除 = [0x1d, 0x42, 0]; // (GS B)
+const 文字サイズを4倍に = [0x1d, 0x21, 0b00110011]; // (GS !)
+const 文字サイズを1倍に = [0x1d, 0x21, 0b00000000]; // (GS !)
+
 (async () => {
   if (process.env.KOMA_DIR === undefined) {
     throw new Error('環境変数 `KOMA_DIR` を指定して下さい.');
@@ -21,12 +27,12 @@ import { lp, randomKoma } from './util';
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
     // 「今日のゆゆ式」ヘッダ
-    .raw([0x1C, 0x21, 0b0001100]) // 漢字のサイズ変更を有効化 (FS !)
-    .raw([0x1D, 0x42, 1]) // 白黒反転を有効化 (GS B)
-    .raw([0x1D, 0x21, 0b00110011]) // 文字サイズを4倍に (GS !)
-    .align('center').raw([0x1C, 0x21, 0b0001100]).jtext('　　今日のゆゆ式　　').newline()
-    .raw([0x1D, 0x21, 0b00000000]) // 文字サイズを1倍に戻す (GS !)
-    .raw([0x1D, 0x42, 0]) // 白黒反転を解除 (GS B)
+    .raw(漢字のサイズ変更を有効化)
+    .raw(白黒反転を有効化)
+    .raw(文字サイズを4倍に)
+    .align('center').jtext('　　今日のゆゆ式　　').newline()
+    .raw(文字サイズを1倍に)
+    .raw(白黒反転を解除)
     .newline()
     // コマ画像
     .align('center').image(Canvas, koma.img, koma.width, koma.height, 'atkinson').newline()
