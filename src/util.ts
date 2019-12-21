@@ -1,10 +1,17 @@
 import { spawn } from 'child_process';
 import { promises as fs, readFileSync } from 'fs';
-import { loadImage } from 'canvas';
+import { loadImage, Image } from 'canvas';
 import { join } from 'path';
 import parse from 'csv-parse/lib/sync';
 
-type KomaData = {
+type Koma = {
+  path: string;
+  annotation: KomaAnnotation;
+  img: Image;
+  description: string;
+};
+
+type KomaAnnotation = {
   koma_id: string;
   kanji: string;
   page: string;
@@ -25,7 +32,7 @@ type KomaData = {
 };
 
 const buffer = readFileSync('yonkoma2data/yuyu_data/yuyu_data.csv');
-const komaDataList: KomaData[] = parse(buffer, {
+const komaAnnotations: KomaAnnotation[] = parse(buffer, {
   columns: true,
   skip_empty_lines: true,
 });
@@ -42,27 +49,28 @@ export function lp(printer: string, binary: Uint8Array) {
 }
 
 // ランダムで1コマ選んでそのファイル名を返す
-export async function randomKoma(komaDir: string) {
+export async function randomKoma(komaDir: string): Promise<Koma> {
+  const basenames = await fs.readdir(komaDir);
+
   while (true) {
-    const fileNames = await fs.readdir(komaDir);
-
-    // .gitkeep や pad-shaved なコマ画像を除外
-    const filteredFileNames = fileNames.filter((fileName) =>
-      /\d\d-\d\d\d-\d.jpg/.test(fileName),
-    );
-
     // ランダムで1コマ選ぶ
-    const komaName = filteredFileNames[getRandomInt(filteredFileNames.length)];
-    const komaImg = await loadImage(join(komaDir, komaName));
-    const komaData = komaDataList.find(
-      (item) => `${item.koma_id}.jpg` === komaName,
+    const basename = basenames[getRandomInt(basenames.length)];
+    const path = join(komaDir, basename);
+    const annotation = komaAnnotations.find(
+      (item) => `${item.koma_id}.jpg` === basename,
     );
 
     // コマに対応するアノテーションデータが見つからない場合は再抽選する
     // NOTE: 10巻のコマはアノテーションデータが無いので, 必ず再抽選になる
-    if (komaData === undefined) {
+    // NOTE: .gitkeep や pad-shaved なコマ画像もここで再抽選になる
+    if (annotation === undefined) {
       continue;
     }
-    return { komaName, komaImg, komaData };
+
+    const img = await loadImage(path);
+    const description = `${annotation.kanji}巻 ${annotation.page}ページ, ${
+      annotation.grade
+    }年生${annotation.month.replace(/^0/, '')}の1コマです.`;
+    return { path, annotation, img, description };
   }
 }

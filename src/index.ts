@@ -11,15 +11,11 @@ import { lp, randomKoma } from './util';
   }
 
   // ランダムで1コマ選ぶ
-  const { komaImg, komaData } = await randomKoma(process.env.KOMA_DIR);
+  const koma = await randomKoma(process.env.KOMA_DIR);
 
   const komaScale = 0.39;
-  const komaWidth = Math.ceil((komaImg.width * komaScale) / 8) * 8;
-  const komaHeight = Math.ceil((komaImg.height * komaScale) / 8) * 8;
-
-  const description = `${komaData.kanji}巻 ${komaData.page}ページ, ${
-    komaData.grade
-  }年生${komaData.month.replace(/^0/, '')}の1コマです.`;
+  const komaWidth = Math.ceil((koma.img.width * komaScale) / 8) * 8;
+  const komaHeight = Math.ceil((koma.img.height * komaScale) / 8) * 8;
 
   const encoder = new EscPosEncoder();
   // prettier-ignore
@@ -28,12 +24,12 @@ import { lp, randomKoma } from './util';
     .charcode('jis')
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
-    .align('center').image(Canvas, komaImg, komaWidth, komaHeight, 'atkinson').newline()
-    .align('center').jtext(description).newline()
+    .align('center').image(Canvas, koma.img, komaWidth, komaHeight, 'atkinson').newline()
+    .align('center').jtext(koma.description).newline()
     .newline()
     .newline()
     .newline()
-    .align('right').jtext(`(c) 三上小又『ゆゆ式 第${komaData.kanji}巻』芳文社`).newline()
+    .align('right').jtext(`(c) 三上小又『ゆゆ式 第${koma.annotation.kanji}巻』芳文社`).newline()
     .cut()
     .encode();
 
@@ -41,11 +37,11 @@ import { lp, randomKoma } from './util';
 
   process.stdout.write(
     JSON.stringify({
-      fulfillmentText: description,
+      fulfillmentText: koma.description,
       fulfillmentMessages: [
         {
           text: {
-            text: [description],
+            text: [koma.description],
           },
         },
       ],
