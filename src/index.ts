@@ -38,8 +38,7 @@ async function randomKomaName(komaDir: string) {
   const komaImg = await loadImage(join(process.env.KOMA_DIR, komaName));
   console.log(`Printing: ${komaName}`);
 
-  // NOTE: 実際の漫画のコマの大きさに合うようスケールを調整してある
-  const komaScale = 0.34;
+  const komaScale = 0.39;
   console.log(komaImg.width, komaImg.height);
   const komaWidth = Math.ceil((komaImg.width * komaScale) / 8) * 8;
   const komaHeight = Math.ceil((komaImg.height * komaScale) / 8) * 8;
