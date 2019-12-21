@@ -85,8 +85,12 @@ async function randomKomaName(komaDir: string) {
     .charcode('jis')
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
-    .align('center').jtext('(c) 三上小又・芳文社').newline()
     .align('center').image(Canvas, komaImg, komaWidth, komaHeight, 'atkinson').newline()
+    .align('center').jtext(`${komaData.kanji}巻 ${komaData.page}ページ, ${komaData.grade}年生${komaData.month.replace(/^0/, '')}の1コマです.`).newline()
+    .newline()
+    .newline()
+    .newline()
+    .align('right').jtext(`(c) 三上小又『ゆゆ式 第${komaData.kanji}巻』芳文社`).newline()
     .cut()
     .encode();
 
