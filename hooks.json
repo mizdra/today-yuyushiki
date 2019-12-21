@@ -1,6 +1,6 @@
 [
   {
-    "id": "today-yuyushiki",
+    "id": "print",
     "execute-command": "./node_modules/.bin/ts-node",
     "pass-arguments-to-command": [
       {
