@@ -4,6 +4,9 @@ import { spawn } from 'child_process';
 import { Canvas, loadImage } from 'canvas';
 import { join } from 'path';
 
+// 紙幅 80mm で印刷する際の横方向の総ドット数
+const MAX_WIDTH_DOTS = 576;
+
 // 区間 [0, max) の中の整数をランダムで返す
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -47,8 +50,9 @@ async function randomKomaName(komaDir: string) {
     .charcode('jis')
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
-    .align('center').jtext('(c) 三上小又・芳文社').newline()
-    .align('center').image(Canvas, komaImg, komaWidth, komaHeight, 'atkinson').newline()
+    // 微妙に左に寄ってしまうので, `ESC \` で右に 30 dots ずらす
+    .align('center').raw([0x1B, 0x5C, 30, 0]).jtext('(c) 三上小又・芳文社').newline()
+    .align('center').raw([0x1B, 0x5C, 30, 0]).image(Canvas, komaImg, komaWidth, komaHeight, 'atkinson').newline()
     .cut()
     .encode();
 
