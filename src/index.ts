@@ -13,10 +13,6 @@ import { lp, randomKoma } from './util';
   // ランダムで1コマ選ぶ
   const koma = await randomKoma(process.env.KOMA_DIR);
 
-  const komaScale = 0.39;
-  const komaWidth = Math.ceil((koma.img.width * komaScale) / 8) * 8;
-  const komaHeight = Math.ceil((koma.img.height * komaScale) / 8) * 8;
-
   const encoder = new EscPosEncoder();
   // prettier-ignore
   const result = encoder
@@ -24,7 +20,7 @@ import { lp, randomKoma } from './util';
     .charcode('jis')
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
-    .align('center').image(Canvas, koma.img, komaWidth, komaHeight, 'atkinson').newline()
+    .align('center').image(Canvas, koma.img, koma.width, koma.height, 'atkinson').newline()
     .align('center').jtext(koma.description).newline()
     .newline()
     .newline()

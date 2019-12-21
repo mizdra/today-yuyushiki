@@ -9,6 +9,8 @@ type Koma = {
   annotation: KomaAnnotation;
   img: Image;
   description: string;
+  width: number;
+  height: number;
 };
 
 type KomaAnnotation = {
@@ -71,6 +73,13 @@ export async function randomKoma(komaDir: string): Promise<Koma> {
     const description = `${annotation.kanji}巻 ${annotation.page}ページ, ${
       annotation.grade
     }年生${annotation.month.replace(/^0/, '')}の1コマです.`;
-    return { path, annotation, img, description };
+
+    // 縦横比を維持しつつ, 横が 512 dots になるようサイズを調整する
+    const heightPerWidth = img.height / img.width;
+    const width = 512;
+    // NOTE: EscPosEncoder#image は8の倍数のサイズしか受け付けないので, 切り上げて8の倍数にする
+    const height = Math.ceil((heightPerWidth * width) / 8) * 8;
+
+    return { path, annotation, img, description, width, height };
   }
 }
