@@ -43,7 +43,7 @@ const 右に少しずらす = [0x1b, 0x5c, 32, 0]; // (ESC \)
     .newline()
     .newline()
     // コピーライト
-    .align('right').jtext(`(c) 三上小又『ゆゆ式 第${koma.annotation.kanji}巻』芳文社`).newline()
+    .align('right').jtext(`(c) 三上小又『ゆゆ式 ${koma.annotation.kanji}巻』芳文社`).newline()
     .cut()
     .encode();
 
