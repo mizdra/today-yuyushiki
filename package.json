@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "canvas": "^2.6.1",
+    "csv-parse": "^4.8.2",
     "esc-pos-encoder": "uecmma/EscPosEncoder"
   }
 }
