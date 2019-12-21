@@ -33,14 +33,14 @@ async function randomKomaPath(komaDir: string) {
   console.log(`Printing: ${komaPath}`);
 
   const encoder = new EscPosEncoder();
+  // prettier-ignore
   const result = encoder
     .initialize()
     .charcode('jis')
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
-    .jtext('©三上小又・芳文社')
-    .kanjiMode(false)
-    .newline()
+    .align('center').jtext('(c) 三上小又・芳文社').newline()
+    .cut()
     .encode();
 
   const lp = spawn('lp', ['-d', process.env.PRINTER]);
