@@ -21,6 +21,7 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
+    "canvas": "^2.6.1",
     "esc-pos-encoder": "uecmma/EscPosEncoder"
   }
 }

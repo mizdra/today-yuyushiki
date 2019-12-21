@@ -1,14 +1,16 @@
 import { promises as fs } from 'fs';
 import EscPosEncoder from 'esc-pos-encoder';
 import { spawn } from 'child_process';
+import { Canvas, loadImage } from 'canvas';
+import { join } from 'path';
 
 // 区間 [0, max) の中の整数をランダムで返す
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-// ランダムで1コマ選んでそのパスを返す
-async function randomKomaPath(komaDir: string) {
+// ランダムで1コマ選んでそのファイル名を返す
+async function randomKomaName(komaDir: string) {
   const fileNames = await fs.readdir(komaDir);
 
   // .gitkeep や pad-shaved なコマ画像を除外
@@ -29,8 +31,14 @@ async function randomKomaPath(komaDir: string) {
   }
 
   // ランダムで1コマ選ぶ
-  const komaPath = await randomKomaPath(process.env.KOMA_DIR);
-  console.log(`Printing: ${komaPath}`);
+  const komaName = await randomKomaName(process.env.KOMA_DIR);
+  const komaImg = await loadImage(join(process.env.KOMA_DIR, komaName));
+  console.log(`Printing: ${komaName}`);
+
+  const komaScale = 0.4;
+  console.log(komaImg.width, komaImg.height);
+  const komaWidth = Math.ceil((komaImg.width * komaScale) / 8) * 8;
+  const komaHeight = Math.ceil((komaImg.height * komaScale) / 8) * 8;
 
   const encoder = new EscPosEncoder();
   // prettier-ignore
@@ -40,6 +48,7 @@ async function randomKomaPath(komaDir: string) {
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
     .align('center').jtext('(c) 三上小又・芳文社').newline()
+    .align('center').image(Canvas, komaImg, komaWidth, komaHeight, 'atkinson').newline()
     .cut()
     .encode();
 
@@ -47,4 +56,4 @@ async function randomKomaPath(komaDir: string) {
   lp.stdin.write(result);
   lp.stdin.end();
   lp.stdout.pipe(process.stdout);
-})();
+})().catch(console.error);
