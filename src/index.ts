@@ -39,7 +39,6 @@ async function randomKomaName(komaDir: string) {
   console.log(`Printing: ${komaName}`);
 
   const komaScale = 0.39;
-  console.log(komaImg.width, komaImg.height);
   const komaWidth = Math.ceil((komaImg.width * komaScale) / 8) * 8;
   const komaHeight = Math.ceil((komaImg.height * komaScale) / 8) * 8;
 
