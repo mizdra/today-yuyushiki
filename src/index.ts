@@ -57,7 +57,6 @@ async function randomKomaName(komaDir: string) {
   // ランダムで1コマ選ぶ
   const komaName = await randomKomaName(process.env.KOMA_DIR);
   const komaImg = await loadImage(join(process.env.KOMA_DIR, komaName));
-  console.log(`Printing: ${komaName}`);
 
   const buffer = await fs.readFile('yonkoma2data/yuyu_data/yuyu_data.csv');
   const komaDataList: KomaData[] = parse(buffer, {
@@ -72,11 +71,14 @@ async function randomKomaName(komaDir: string) {
       `${komaData} のアノテーションデータが見つかりませんでした.`,
     );
   }
-  console.log(komaData);
 
   const komaScale = 0.39;
   const komaWidth = Math.ceil((komaImg.width * komaScale) / 8) * 8;
   const komaHeight = Math.ceil((komaImg.height * komaScale) / 8) * 8;
+
+  const description = `${komaData.kanji}巻 ${komaData.page}ページ, ${
+    komaData.grade
+  }年生${komaData.month.replace(/^0/, '')}の1コマです.`;
 
   const encoder = new EscPosEncoder();
   // prettier-ignore
@@ -86,7 +88,7 @@ async function randomKomaName(komaDir: string) {
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
     .align('center').image(Canvas, komaImg, komaWidth, komaHeight, 'atkinson').newline()
-    .align('center').jtext(`${komaData.kanji}巻 ${komaData.page}ページ, ${komaData.grade}年生${komaData.month.replace(/^0/, '')}の1コマです.`).newline()
+    .align('center').jtext(description).newline()
     .newline()
     .newline()
     .newline()
@@ -97,5 +99,16 @@ async function randomKomaName(komaDir: string) {
   const lp = spawn('lp', ['-d', process.env.PRINTER]);
   lp.stdin.write(result);
   lp.stdin.end();
-  lp.stdout.pipe(process.stdout);
+  process.stdout.write(
+    JSON.stringify({
+      fulfillmentText: description,
+      fulfillmentMessages: [
+        {
+          text: {
+            text: [description],
+          },
+        },
+      ],
+    }),
+  );
 })().catch(console.error);

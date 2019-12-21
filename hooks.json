@@ -16,6 +16,7 @@
         "name": "src/index.ts"
       }
     ],
-    "command-working-directory": "."
+    "command-working-directory": ".",
+    "include-command-output-in-response": true
   }
 ]
