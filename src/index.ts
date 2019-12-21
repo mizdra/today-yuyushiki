@@ -20,6 +20,7 @@ import { lp, randomKoma } from './util';
     .charcode('jis')
     .kanjiCodeSystem('sjis')
     .kanjiMode(true)
+    // 「今日のゆゆ式」ヘッダ
     .raw([0x1C, 0x21, 0b0001100]) // 漢字のサイズ変更を有効化 (FS !)
     .raw([0x1D, 0x42, 1]) // 白黒反転を有効化 (GS B)
     .raw([0x1D, 0x21, 0b00110011]) // 文字サイズを4倍に (GS !)
@@ -27,11 +28,14 @@ import { lp, randomKoma } from './util';
     .raw([0x1D, 0x21, 0b00000000]) // 文字サイズを1倍に戻す (GS !)
     .raw([0x1D, 0x42, 0]) // 白黒反転を解除 (GS B)
     .newline()
+    // コマ画像
     .align('center').image(Canvas, koma.img, koma.width, koma.height, 'atkinson').newline()
+    // コマの説明
     .align('center').jtext(koma.description).newline()
     .newline()
     .newline()
     .newline()
+    // コピーライト
     .align('right').jtext(`(c) 三上小又『ゆゆ式 第${koma.annotation.kanji}巻』芳文社`).newline()
     .cut()
     .encode();
