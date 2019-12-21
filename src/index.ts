@@ -7,7 +7,7 @@ const 白黒反転を有効化 = [0x1d, 0x42, 1]; // (GS B)
 const 白黒反転を解除 = [0x1d, 0x42, 0]; // (GS B)
 const 文字サイズを4倍に = [0x1d, 0x21, 0b00110011]; // (GS !)
 const 文字サイズを1倍に = [0x1d, 0x21, 0b00000000]; // (GS !)
-const 右に少しずらす = [0x1b, 0x5c, 30, 0]; // (ESC \)
+const 右に少しずらす = [0x1b, 0x5c, 32, 0]; // (ESC \)
 
 (async () => {
   if (process.env.KOMA_DIR === undefined) {
