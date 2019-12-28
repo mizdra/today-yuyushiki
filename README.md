@@ -6,7 +6,7 @@ Google Assistant に「OK Google, 今日のゆゆ式」と話しかけるとゆ�
 
 <center>
 
-![アーキテクチャ図](static/architecture.svg)
+![アーキテクチャ図](static/architecture-figure.svg)
 
 </center>
 
